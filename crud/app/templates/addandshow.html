@@ -1,0 +1,50 @@
+{% extends "index.html" %}
+
+{% block content %}
+<h1>Add New Book</h1>
+<form action="" method="POST">
+{% csrf_token %}
+{{ form.as_p }}
+<input class="btn btn-primary btn-lg" type="submit" value="Add"/>
+</form>
+{% if stud %}
+<div>
+    <h1>List of Books available</h1>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">name</th>
+            <th scope="col">Author</th>
+            <th scope="col">ISBN</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for stud in stud %}
+          <tr>
+            <th>{{stud.id}}</th>
+            <td>{{stud.name}}</td>
+            <td>{{stud.author}}</td>
+            <td>{{stud.ISBN}}</td>
+            <td>
+              <button><a href="{% url 'updateBook' stud.id %}">Edit</a></button>
+              <form action = "{% url 'deleteBook' stud.id %}"
+                    method = "POST" >
+                    {% csrf_token %}
+              <input type="submit" value="Delete"/>
+              
+              </form>
+            </td>
+          
+            
+          </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+
+</div>
+{% else %}
+  <h4>No records found</h4>
+{% endif %}
+{% endblock content %}
